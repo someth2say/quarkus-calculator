@@ -1,4 +1,4 @@
-package com.redhat.training;
+package com.redhat.training.service;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 

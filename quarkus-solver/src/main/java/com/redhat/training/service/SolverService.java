@@ -1,4 +1,4 @@
-package com.redhat.training;
+package com.redhat.training.service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
