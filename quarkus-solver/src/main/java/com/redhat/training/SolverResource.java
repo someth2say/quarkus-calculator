@@ -35,11 +35,11 @@ public class SolverResource implements SolverService {
     @GET
     @Path("{equation}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Float solve(@PathParam("equation") String equation) {
+    public String solve(@PathParam("equation") String equation) {
         log.info("Solving '{}'", equation);
-        Float result;
+        String result;
         try {
-            result = Float.parseFloat(equation);
+            result = (Float.valueOf(equation)).toString();
         } catch (NumberFormatException e) {
             Matcher addMatcher = addPattern.matcher(equation);
             if (addMatcher.matches()) {

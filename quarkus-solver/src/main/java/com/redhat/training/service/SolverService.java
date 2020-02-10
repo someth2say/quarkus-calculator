@@ -11,5 +11,5 @@ public interface SolverService {
     @GET
     @Path("{equation}")
     @Produces(MediaType.TEXT_PLAIN)
-    Float solve(@PathParam("equation") String equation);
+    String solve(@PathParam("equation") String equation);
 }

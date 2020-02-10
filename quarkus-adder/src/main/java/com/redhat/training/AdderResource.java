@@ -24,21 +24,23 @@ public class AdderResource implements AdderService {
     @GET
     @Path("/{lhs}/{rhs}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Float add(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs) {
+    public String add(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs) {
         log.info("Adding {} to {}" ,lhs, rhs);
-        Float lResponse ;
+        Float lResponse = parseOrSolve(lhs);
+        Float rResponse = parseOrSolve(rhs);
+        return Float.valueOf(lResponse+rResponse).toString();
+    }
+
+    private Float parseOrSolve(String side) {
         try {
-            lResponse = solverService.solve(lhs);
-        } catch (Exception e) {
-            throw new WebApplicationException(lhs, Response.status(Response.Status.BAD_REQUEST).entity("Unable to add "+lhs+"\nReason: "+e.getMessage()).build());
+            return Float.valueOf(side);
+        } catch (NumberFormatException e) {
+            try {
+                return Float.valueOf(solverService.solve(side));
+            } catch (Exception e2) {
+                throw new WebApplicationException(side, Response.status(Response.Status.BAD_REQUEST).entity("Unable to evaluate "+side+"\nReason: "+e2.getMessage()).build());
+            }
         }
-        Float rResponse;
-        try {
-            rResponse = solverService.solve(rhs);
-        } catch (Exception e) {
-            throw new WebApplicationException(rhs, Response.status(Response.Status.BAD_REQUEST).entity("Unable to add "+rhs+"\nReason: "+e.getMessage()).build());
-        }
-        return lResponse+rResponse;
     }
 
 }

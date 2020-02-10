@@ -23,22 +23,23 @@ public class MultiplierResource implements MultiplierService {
     @GET
     @Path("/{lhs}/{rhs}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Float multiply(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs) {
+    public String multiply(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs) {
         log.info("Multiplying {} by {}",lhs, rhs);
-        Float lResponse ;
-        try {
-            lResponse = solverService.solve(lhs);
-        } catch (Exception e) {
-            throw new WebApplicationException(Response.status(Response.Status.BAD_REQUEST).entity("Unable to multiply "+lhs+".\nReason: "+e.getMessage()).build());
+        Float lResponse = parseOrSolve(lhs);
+        Float rResponse = parseOrSolve(rhs);
+        return Float.valueOf(lResponse*rResponse).toString();
+    }
 
-        }
-        Float rResponse;
+    private Float parseOrSolve(String side) {
         try {
-            rResponse = solverService.solve(rhs);
-        } catch (Exception e) {
-            throw new WebApplicationException(rhs, Response.status(Response.Status.BAD_REQUEST).entity("Unable to multiply "+rhs+"\nReason: "+e.getMessage()).build());
+            return Float.valueOf(side);
+        } catch (NumberFormatException e) {
+            try {
+                return Float.valueOf(solverService.solve(side));
+            } catch (Exception e2) {
+                throw new WebApplicationException(side, Response.status(Response.Status.BAD_REQUEST).entity("Unable to evaluate "+side+"\nReason: "+e2.getMessage()).build());
+            }
         }
-        return lResponse*rResponse;
     }
 
 }

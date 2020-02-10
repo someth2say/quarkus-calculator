@@ -15,6 +15,6 @@ public interface AdderService {
     @GET
     @Path("/{lhs}/{rhs}")
     @Produces(MediaType.TEXT_PLAIN)
-    Float add(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs);
+    String add(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs);
 
 }

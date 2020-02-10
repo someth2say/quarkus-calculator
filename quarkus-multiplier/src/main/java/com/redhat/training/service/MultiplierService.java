@@ -15,6 +15,6 @@ public interface MultiplierService {
     @GET
     @Path("/{lhs}/{rhs}")
     @Produces(MediaType.TEXT_PLAIN)
-    Float multiply(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs);
+    String multiply(@PathParam("lhs") String lhs, @PathParam("rhs") String rhs);
 
 }
